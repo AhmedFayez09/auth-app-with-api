@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:auth_app_with_api/core/componant/face_google_buttons.dart';
 import 'package:auth_app_with_api/core/componant/main_button.dart';
 import 'package:auth_app_with_api/logic/auth_cubit/auth_cubit.dart';
+import 'package:auth_app_with_api/logic/profile_cubit/profile_cubit.dart';
 import 'package:auth_app_with_api/screens/home_screen.dart';
 import 'package:auth_app_with_api/screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +76,13 @@ class LoginScreen extends StatelessWidget {
                       },
                       listener: (context, state) {
                         if (state is LoginSuccess) {
+                          context.read<ProfileCubit>().getProfileData(
+                                uId: state.uId,
+                                token: state.token,
+                              );
+                          context
+                              .read<ProfileCubit>()
+                              .getAllUsers(token: state.token);
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (c) => HomeScreen()));
                         } else if (state is LoginError) {

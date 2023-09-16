@@ -7,14 +7,21 @@ class ApiPath {
   static const String baseUrl = "https://testapp-1aop.onrender.com/";
   static const String login = "Auth/login";
   static const String register = "Auth/register";
+  static const String getAlluser = "Admin/getusers";
+  static  String getProfile ({required String uId})=> "Admin/profile/$uId";
 }
 
 class DioHelper {
   Dio dio = Dio();
 
-  Future<Response> getData({required String endPoint}) async {
+  Future<Response> getData({required String endPoint, String? token,}) async {
     Response response = await dio.get(
       ApiPath.baseUrl + endPoint,
+       options: Options(
+          headers: {
+            "Authorization": "Token $token",
+          },
+        ),
     );
     log(response.statusCode.toString());
     return response;

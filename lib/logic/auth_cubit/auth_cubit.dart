@@ -47,8 +47,11 @@ class AuthCubit extends Cubit<AuthState> {
           "password": password,
         },
       );
-      emit(LoginSuccess());
+      emit(LoginSuccess(
+          token: response.data['token'],
+          uId: response.data['founduser']['_id']));
     } catch (e) {
+      log("$e");
       emit(LoginError());
     }
   }
